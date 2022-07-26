@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.pruebaafg.R
 import com.example.pruebaafg.data.model.PeriodEnum
 import com.example.pruebaafg.data.model.TypeEnum
@@ -97,7 +98,13 @@ class FilterFragment : Fragment() {
             }
 
             button.setOnClickListener {
-                //Todo Navigation
+                val dir = FilterFragmentDirections.actionFilterFragmentToListFragment(
+                    sharedFacebook,
+                    sharedTwitter,
+                    period,
+                    type
+                )
+                findNavController().navigate(dir)
             }
 
         }

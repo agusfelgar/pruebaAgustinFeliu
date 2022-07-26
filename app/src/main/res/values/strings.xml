@@ -14,4 +14,10 @@
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="search">Buscar</string>
+
+    <string name="loading">Cargando...</string>
+    <string name="tv_error">Se ha producido un error al cargar el artículo</string>
+    <string name="tv_no_items">No se han podido recuperar los artículos</string>
+    <string name="btn_back">Volver</string>
+    <string name="error_title">Error</string>
 </resources>

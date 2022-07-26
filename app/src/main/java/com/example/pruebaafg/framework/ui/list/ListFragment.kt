@@ -5,56 +5,87 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.pruebaafg.R
+import com.example.pruebaafg.data.model.Article
+import com.example.pruebaafg.data.model.PeriodEnum
+import com.example.pruebaafg.data.model.TypeEnum
+import com.example.pruebaafg.databinding.FragmentListBinding
+import com.example.pruebaafg.framework.ui.list.ListFragmentArgs
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var binding: FragmentListBinding
+    private val viewModel by viewModels<ListViewModel>()
+
+    //Parameters
+    private var facebook: Boolean = false
+    private var twitter: Boolean = false
+    private var type: TypeEnum = TypeEnum.NONE
+    private var period: PeriodEnum = PeriodEnum.NONE
+
+    val args: ListFragmentArgs by navArgs()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = getString(R.string.app_name)
+
+        //Get Arguments
+        val args = ListFragmentArgs.fromBundle(requireArguments())
+        facebook = args.facebook
+        twitter = args.twitter
+        type = args.type
+        period = args.period
+
+        //Init ViewModel
+        viewModel.onInit(type, period, facebook, twitter)
+
+        //Define observers
+        viewModel.loadingVisibility.observe(viewLifecycleOwner, Observer { visible ->
+            if (visible) {
+                binding.layoutLoader.root.visibility = View.VISIBLE
+                binding.rvArticles.visibility = View.GONE
+            } else {
+                binding.layoutLoader.root.visibility = View.GONE
+                binding.rvArticles.visibility = View.VISIBLE
             }
+        })
+        viewModel.articleList.observe(viewLifecycleOwner, Observer { list ->
+            binding.rvArticles.adapter = ArticleListAdapter(list) { article ->
+                onArticleClicked(
+                    article
+                )
+            }
+        })
+        viewModel.errorVisibility.observe(viewLifecycleOwner, Observer { visible ->
+            if (visible) {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle(getString(R.string.error_title))
+                    .setMessage(getString(R.string.tv_no_items))
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.btn_back){dialogInterface, it ->
+                        dialogInterface.dismiss()
+                        findNavController().popBackStack()
+                    }
+                    .create()
+                    .show()
+            }
+        })
     }
+
+    private fun onArticleClicked(article : Article) {
+//TODO navigate to Detail
+    }
+
 }
