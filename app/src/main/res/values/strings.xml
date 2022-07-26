@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">pruebaAFG</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="type">Tipo</string>
+    <string name="period">Periodo</string>
+    <string name="source">Fuente de datos</string>
+    <string name="mostmailed">Mostmailed</string>
+    <string name="mostshared">Mostshared</string>
+    <string name="mostviewed">Mostviewed</string>
+    <string name="one_day">1 día</string>
+    <string name="seven_days">7 días</string>
+    <string name="thirty_days">30 días</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="search">Buscar</string>
 </resources>
