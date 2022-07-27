@@ -31,7 +31,11 @@ class ListViewModel @Inject constructor(
     private val _errorVisibility = MutableLiveData<Boolean>()
     val errorVisibility : LiveData<Boolean> get() = _errorVisibility
 
+    private val _noResultVisibility = MutableLiveData<Boolean>()
+    val noResultVisibility : LiveData<Boolean> get() = _noResultVisibility
+
     fun onInit(type : TypeEnum, period : PeriodEnum, facebook: Boolean, twitter : Boolean) {
+        _noResultVisibility.value = false
 
         viewModelScope.launch {
             val result = when (type) {
@@ -40,14 +44,21 @@ class ListViewModel @Inject constructor(
                 TypeEnum.MOSTVIEWED -> getMostViewedArticlesUseCase(period)
                 TypeEnum.NONE -> ArticleResponse(0, listOf())
             }
-            if(result?.num_results != 0) {
-                _errorVisibility.value = false
-                _articleList.postValue(result?.articles)
-                _loadingVisibility.value = false
+
+            if (result != null) {
+                _noResultVisibility.value = false
+                if(result?.num_results != 0) {
+                    _errorVisibility.value = false
+                    _articleList.postValue(result?.articles)
+                    _loadingVisibility.value = false
+                } else {
+                    _noResultVisibility.value = true
+                }
             } else {
                 _errorVisibility.value = true
                 _loadingVisibility.value = false
             }
+
         }
     }
 }

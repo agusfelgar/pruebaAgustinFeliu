@@ -9,7 +9,7 @@ class ArticleRepository  @Inject constructor(
     private val api : ArticleService
 ){
 
-    suspend fun getMostViewedArticles(period : PeriodEnum): ArticleResponse {
+    suspend fun getMostViewedArticles(period : PeriodEnum): ArticleResponse? {
         val mPeriod = when(period) {
             PeriodEnum.NONE -> 0
             PeriodEnum.ONE_DAY -> 1
@@ -17,10 +17,11 @@ class ArticleRepository  @Inject constructor(
             PeriodEnum.THIRTY_DAYS -> 30
         }
         val response = api.getMostViewedArticles("mostviewed/all-sections/$mPeriod.json?")
+
         return response
     }
 
-    suspend fun getMostSharedArticles(period : PeriodEnum, facebook : Boolean, twitter : Boolean):ArticleResponse{
+    suspend fun getMostSharedArticles(period : PeriodEnum, facebook : Boolean, twitter : Boolean): ArticleResponse? {
         val mPeriod = when(period) {
             PeriodEnum.NONE -> 0
             PeriodEnum.ONE_DAY -> 1
@@ -49,7 +50,7 @@ class ArticleRepository  @Inject constructor(
         return response
     }
 
-    suspend fun getMostMailedArticles(period : PeriodEnum): ArticleResponse {
+    suspend fun getMostMailedArticles(period : PeriodEnum): ArticleResponse? {
         val mPeriod = when(period) {
             PeriodEnum.NONE -> 0
             PeriodEnum.ONE_DAY -> 1

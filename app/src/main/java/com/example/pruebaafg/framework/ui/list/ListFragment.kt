@@ -73,7 +73,7 @@ class ListFragment : Fragment() {
             if (visible) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle(getString(R.string.error_title))
-                    .setMessage(getString(R.string.tv_no_items))
+                    .setMessage(getString(R.string.tv_error_list))
                     .setCancelable(false)
                     .setPositiveButton(R.string.btn_back){dialogInterface, it ->
                         dialogInterface.dismiss()
@@ -83,11 +83,27 @@ class ListFragment : Fragment() {
                     .show()
             }
         })
+
+        viewModel.noResultVisibility.observe(viewLifecycleOwner, Observer { visible ->
+            if(visible) {
+                binding.layoutLoader.progressBarLoader.visibility = View.GONE
+                binding.layoutLoader.progressBarLoader1.visibility = View.GONE
+                binding.layoutLoader.btnBack.visibility = View.VISIBLE
+                binding.layoutLoader.tvLoading.text = getString(R.string.tv_no_items)
+            }
+        })
+
+        binding.layoutLoader.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun onArticleClicked(article : Article) {
         val dir = ListFragmentDirections.actionListFragmentToDetailFragment(article)
         findNavController().navigate(dir)
     }
+
+
 
 }

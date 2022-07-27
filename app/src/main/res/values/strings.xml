@@ -17,7 +17,9 @@
 
     <string name="loading">Cargando...</string>
     <string name="tv_error">Se ha producido un error al cargar el artículo</string>
-    <string name="tv_no_items">No se han podido recuperar los artículos</string>
+    <string name="tv_error_list">No se han podido recuperar los artículos</string>
+    <string name="tv_no_items">No se han encontrado artículos</string>
     <string name="btn_back">Volver</string>
     <string name="error_title">Error</string>
+    <string name="back">volver</string>
 </resources>
