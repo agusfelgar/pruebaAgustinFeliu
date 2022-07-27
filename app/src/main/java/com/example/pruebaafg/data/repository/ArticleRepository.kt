@@ -57,7 +57,7 @@ class ArticleRepository  @Inject constructor(
             PeriodEnum.SEVEN_DAYS -> 7
             PeriodEnum.THIRTY_DAYS -> 30
         }
-        val response = api.getMostMailedArticles("mostmailed/all-sections/$mPeriod.json?")
+        val response = api.getMostMailedArticles("mostemailed/all-sections/$mPeriod.json?")
 
         return response
     }

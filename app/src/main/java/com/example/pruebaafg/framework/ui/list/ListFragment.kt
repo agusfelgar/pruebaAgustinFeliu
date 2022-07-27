@@ -96,7 +96,6 @@ class ListFragment : Fragment() {
         binding.layoutLoader.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
-
     }
 
     private fun onArticleClicked(article : Article) {
