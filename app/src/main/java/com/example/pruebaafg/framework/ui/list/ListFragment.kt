@@ -85,7 +85,8 @@ class ListFragment : Fragment() {
     }
 
     private fun onArticleClicked(article : Article) {
-//TODO navigate to Detail
+        val dir = ListFragmentDirections.actionListFragmentToDetailFragment(article)
+        findNavController().navigate(dir)
     }
 
 }

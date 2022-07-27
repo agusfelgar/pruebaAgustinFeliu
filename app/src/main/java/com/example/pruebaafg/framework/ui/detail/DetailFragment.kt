@@ -5,56 +5,61 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.pruebaafg.R
+import com.example.pruebaafg.data.model.Article
+import com.example.pruebaafg.databinding.FragmentDetailBinding
+import com.example.pruebaafg.framework.ui.detail.DetailFragmentArgs
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var binding : FragmentDetailBinding
+    private val viewModel by viewModels<DetailViewModel>()
+
+    private lateinit var article: Article
+
+    val args : DetailFragmentArgs by navArgs()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentDetailBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        article = args.article
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = args.article.title
+        viewModel.onInit(article)
+
+        viewModel.articleUrl.observe(viewLifecycleOwner, Observer {urlString ->
+
+            binding.webviewArticle.webViewClient = object : WebViewClient() {
+                override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                    binding.webviewArticle.visibility = View.GONE
+                    val builder = AlertDialog.Builder(binding.webviewArticle.context)
+                    builder.setTitle(getString(R.string.error_title))
+                        .setMessage(getString(R.string.tv_error))
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.btn_back){dialogInterface, it ->
+                            dialogInterface.dismiss()
+                            findNavController().popBackStack()
+                        }
+                        .create()
+                        .show()
                 }
             }
+            binding.webviewArticle.loadUrl(urlString)
+        })
+
     }
 }

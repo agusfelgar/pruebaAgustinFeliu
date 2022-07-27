@@ -41,7 +41,11 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.pruebaafg.framework.ui.DetailFragment"
+        android:name="com.example.pruebaafg.framework.ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="article"
+            app:argType="com.example.pruebaafg.data.model.Article" />
+    </fragment>
 </navigation>
