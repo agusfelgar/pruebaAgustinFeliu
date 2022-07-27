@@ -1,34 +1,30 @@
 package com.example.pruebaafg.data.network
 
-import android.util.Log
 import com.example.pruebaafg.data.model.ArticleResponse
 import com.example.pruebaafg.utils.Constants
-import com.example.pruebaafg.utils.RetrofitHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ArticleService {
-    private val retrofit = RetrofitHelper.getRetrofit()
+class ArticleService @Inject constructor(private val api: APIService, private val constants : Constants){
 
     suspend fun getMostViewedArticles(url : String) : ArticleResponse {
         return withContext(Dispatchers.IO) {
-            val articles = retrofit.create(APIService::class.java).getMostViewed(url+"api-key=${Constants.APIKEY}")
+            val articles = api.getMostViewed(url+"api-key=${constants.APIKEY}")
             articles.body() ?: ArticleResponse(0, listOf())
         }
     }
 
     suspend fun getMostMailedArticles(url : String) : ArticleResponse {
         return withContext(Dispatchers.IO) {
-            val articles = retrofit.create(APIService::class.java).getMostMailed(url+"api-key=${Constants.APIKEY}")
-            Log.e("AAA-", articles.toString() + "88888 " +articles.body().toString())
+            val articles = api.getMostMailed(url+"api-key=${constants.APIKEY}")
             articles.body() ?: ArticleResponse(0, listOf())
         }
     }
 
     suspend fun getMostSharedArticles(url : String) : ArticleResponse {
         return withContext(Dispatchers.IO) {
-            val articles = retrofit.create(APIService::class.java).getMostShared(url+"api-key=${Constants.APIKEY}")
-            Log.e("AAA-", articles.toString() + "88888 " +articles.body().toString())
+            val articles = api.getMostShared(url+"api-key=${constants.APIKEY}")
             articles.body() ?: ArticleResponse(0, listOf())
         }
     }

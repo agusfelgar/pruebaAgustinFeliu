@@ -12,7 +12,9 @@ import com.example.pruebaafg.R
 import com.example.pruebaafg.data.model.PeriodEnum
 import com.example.pruebaafg.data.model.TypeEnum
 import com.example.pruebaafg.databinding.FragmentFilterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FilterFragment : Fragment() {
 
     private lateinit var binding: FragmentFilterBinding

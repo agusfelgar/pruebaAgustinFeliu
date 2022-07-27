@@ -19,7 +19,9 @@ import com.example.pruebaafg.R
 import com.example.pruebaafg.data.model.Article
 import com.example.pruebaafg.databinding.FragmentDetailBinding
 import com.example.pruebaafg.framework.ui.detail.DetailFragmentArgs
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private lateinit var binding : FragmentDetailBinding

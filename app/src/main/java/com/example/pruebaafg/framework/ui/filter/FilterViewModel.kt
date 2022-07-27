@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pruebaafg.data.model.PeriodEnum
 import com.example.pruebaafg.data.model.TypeEnum
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FilterViewModel : ViewModel() {
+@HiltViewModel
+class FilterViewModel @Inject constructor(): ViewModel()  {
 
     //LIVE DATA region
     private val _isMostShared = MutableLiveData<Boolean>()

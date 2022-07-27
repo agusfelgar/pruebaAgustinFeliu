@@ -17,7 +17,9 @@ import com.example.pruebaafg.data.model.PeriodEnum
 import com.example.pruebaafg.data.model.TypeEnum
 import com.example.pruebaafg.databinding.FragmentListBinding
 import com.example.pruebaafg.framework.ui.list.ListFragmentArgs
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
@@ -42,7 +44,6 @@ class ListFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = getString(R.string.app_name)
 
         //Get Arguments
-        val args = ListFragmentArgs.fromBundle(requireArguments())
         facebook = args.facebook
         twitter = args.twitter
         type = args.type

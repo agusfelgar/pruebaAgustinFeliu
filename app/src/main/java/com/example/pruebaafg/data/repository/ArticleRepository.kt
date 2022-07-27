@@ -3,10 +3,11 @@ package com.example.pruebaafg.data.repository
 import com.example.pruebaafg.data.model.ArticleResponse
 import com.example.pruebaafg.data.model.PeriodEnum
 import com.example.pruebaafg.data.network.ArticleService
+import javax.inject.Inject
 
-class ArticleRepository {
-
-    private val api = ArticleService()
+class ArticleRepository  @Inject constructor(
+    private val api : ArticleService
+){
 
     suspend fun getMostViewedArticles(period : PeriodEnum): ArticleResponse {
         val mPeriod = when(period) {

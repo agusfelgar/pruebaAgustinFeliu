@@ -11,9 +11,16 @@ import com.example.pruebaafg.data.model.TypeEnum
 import com.example.pruebaafg.domain.usecases.GetMostMailedArticlesUseCase
 import com.example.pruebaafg.domain.usecases.GetMostSharedArticlesUseCase
 import com.example.pruebaafg.domain.usecases.GetMostViewedArticlesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ListViewModel : ViewModel() {
+@HiltViewModel
+class ListViewModel @Inject constructor(
+    private val getMostMailedArticlesUseCase : GetMostMailedArticlesUseCase,
+    private val getMostSharedArticlesUseCase : GetMostSharedArticlesUseCase,
+    private val getMostViewedArticlesUseCase : GetMostViewedArticlesUseCase
+) : ViewModel() {
 
     private val _articleList = MutableLiveData<List<Article>>()
     val articleList : LiveData<List<Article>> get() = _articleList
@@ -25,10 +32,6 @@ class ListViewModel : ViewModel() {
     val errorVisibility : LiveData<Boolean> get() = _errorVisibility
 
     fun onInit(type : TypeEnum, period : PeriodEnum, facebook: Boolean, twitter : Boolean) {
-
-        var getMostMailedArticlesUseCase = GetMostMailedArticlesUseCase()
-        var getMostSharedArticlesUseCase = GetMostSharedArticlesUseCase()
-        var getMostViewedArticlesUseCase = GetMostViewedArticlesUseCase()
 
         viewModelScope.launch {
             val result = when (type) {
