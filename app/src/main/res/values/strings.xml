@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">pruebaAFG</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="type">Tipo</string>
+    <string name="period">Periodo</string>
+    <string name="source">Fuente de datos</string>
+    <string name="mostmailed">Mostmailed</string>
+    <string name="mostshared">Mostshared</string>
+    <string name="mostviewed">Mostviewed</string>
+    <string name="one_day">1 día</string>
+    <string name="seven_days">7 días</string>
+    <string name="thirty_days">30 días</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="search">Buscar</string>
+
+    <string name="loading">Cargando...</string>
+    <string name="tv_error">Se ha producido un error al cargar el artículo</string>
+    <string name="tv_error_list">No se han podido recuperar los artículos</string>
+    <string name="tv_no_items">No se han encontrado artículos</string>
+    <string name="btn_back">Volver</string>
+    <string name="error_title">Error</string>
+    <string name="back">volver</string>
+</resources>
